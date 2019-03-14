@@ -1,0 +1,26 @@
+apiVersion: apps/v1beta2
+kind: Deployment
+metadata:
+  name: simple-php
+spec:
+  selector:
+    matchLabels:
+      app: simple-php
+  replicas: 5
+  template:
+    metadata:
+      labels:
+        app: simple-php
+    spec:
+      containers:
+      - name: simple-php
+        image: jacopen/simple-php
+        resources:
+          requests:
+            cpu: 100m
+            memory: 500Mi
+        env:
+        - name: ENV
+          value: production
+        ports:
+        - containerPort: 80
