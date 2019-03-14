@@ -6,7 +6,7 @@ spec:
   selector:
     matchLabels:
       app: simple-php
-  replicas: 5
+  replicas: 2
   template:
     metadata:
       labels:
@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
       - name: simple-php
-        image: jacopen/simple-php
+        image: jacopen/simple-php:TAG
         resources:
           requests:
             cpu: 100m
