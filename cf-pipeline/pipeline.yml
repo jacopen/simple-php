@@ -1,0 +1,48 @@
+resources:
+- name: app
+  type: git
+  source:
+    uri: "https://github.com/jacopen/simple-php.git"
+- name: cf
+  type: cf
+  source:
+    api: ((cf-api))
+    username: ((cf-user))
+    password: ((cf-password))
+    organization: pivot-kkusama
+    space: playground
+    skip_cert_check: false
+
+jobs:
+- name: unit-test
+  plan:
+  - get: app
+    trigger: true
+  - task: run-test
+    config:
+      platform: linux
+      image_resource:
+        type: docker-image
+        source:
+          repository: containerdaysjp/alpine-git-sed
+      inputs:
+        - name: app
+      outputs:
+        - name: app-output
+      run:
+        path: sh
+        args:
+        - -c
+        - |
+          echo "RUNNING UNIT TEST"
+- name: deploy
+  plan:
+  - get: app
+    trigger: true
+    passed: ['unit-test']
+  - put: cf
+    params:
+      manifest: app/manifest.yml
+      path: app
+      current_app_name: simple-php
+
