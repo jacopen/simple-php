@@ -1,2 +1,2 @@
 <?php
-echo "konnichiha";
+echo "konnichiha sekai";
