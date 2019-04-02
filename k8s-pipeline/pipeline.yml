@@ -12,12 +12,13 @@ resources:
 - name: container-image
   type: docker-image
   source:
-    password: ((registry_user))
+    username: ((registry_user))
     repository: jacopen/simple-php
-    username: ((registry_password))
+    password: ((registry_password))
 - name: kubernetes
   type: kubernetes
-  kubeconfig: ((kubeconfig))
+  source:
+    kubeconfig: ((kubeconfig))
 jobs:
 - name: unit-test
   plan:
